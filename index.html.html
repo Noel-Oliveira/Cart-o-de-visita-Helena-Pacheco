@@ -34,7 +34,7 @@
     padding: 20px 0;
   }
 
-  /* Cartão Principal com a Logo no Fundo */
+  /* Cartão Principal */
   .card-container {
     width: 100%;
     max-width: 400px;
@@ -57,7 +57,7 @@
     padding: 35px 24px 25px 24px;
   }
 
-  /* Tag <img> como Fallback garantido no topo superior direito */
+  /* Logo do Topo */
   .card-logo-watermark {
     position: absolute;
     top: 22px;
@@ -75,7 +75,7 @@
     object-fit: contain;
   }
 
-  /* Moldura da Foto Harmônica */
+  /* Moldura da Foto */
   .avatar-wrapper {
     position: relative;
     margin-top: 15px;
@@ -93,7 +93,6 @@
     box-shadow: 0 8px 24px rgba(33, 153, 133, 0.22);
     position: relative;
     overflow: hidden;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,70 +104,7 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: center top;
-    display: none;
-  }
-
-  .avatar-placeholder {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: var(--accent-teal);
-    font-size: 11px;
-    font-weight: 600;
-    text-align: center;
-    background: #e8f8f5;
-  }
-
-  .avatar-placeholder span {
-    font-size: 26px;
-    margin-bottom: 4px;
-  }
-
-  .avatar-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: rgba(27, 61, 54, 0.82);
-    backdrop-filter: blur(2px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .avatar-box:hover .avatar-overlay {
-    opacity: 1;
-  }
-
-  .avatar-btn {
-    background: #ffffff;
-    color: var(--accent-teal);
-    border: none;
-    padding: 5px 12px;
-    border-radius: 12px;
-    font-size: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .avatar-btn:hover {
-    transform: scale(1.05);
-  }
-
-  .avatar-btn-danger {
-    background: #e57373;
-    color: #ffffff;
+    display: block;
   }
 
   /* Tipografia do Perfil */
@@ -378,7 +314,6 @@
     transform: rotate(180deg);
   }
 
-  /* Ajuste no spec-content para permitir leitura e rolagem fluida */
   .spec-content {
     max-height: 0;
     overflow: hidden;
@@ -392,7 +327,7 @@
   }
 
   .spec-item.active .spec-content {
-    max-height: 800px; /* Garante espaço suficiente para textos longos como Moxabustão */
+    max-height: 800px;
     padding: 12px 16px 16px 16px;
     border-top-color: rgba(33, 153, 133, 0.1);
   }
@@ -417,7 +352,6 @@
     border: 1px solid rgba(33, 153, 133, 0.15);
   }
 
-  /* Linha do Tempo Acadêmica */
   .timeline {
     display: flex;
     flex-direction: column;
@@ -452,7 +386,6 @@
     margin-top: 2px;
   }
 
-  /* Badges para Formação Complementar */
   .tags-container {
     display: flex;
     flex-wrap: wrap;
@@ -470,7 +403,6 @@
     font-weight: 600;
   }
 
-  /* Bloco de Filosofia de Atendimento */
   .quote-card {
     background: linear-gradient(135deg, #219985 0%, #1b3d36 100%);
     color: #ffffff;
@@ -494,7 +426,6 @@
     opacity: 0.95;
   }
 
-  /* Rodapé */
   .footer-text {
     margin-top: auto;
     font-size: 10px;
@@ -514,23 +445,12 @@
     <img src="Logo_Helena_Pacheco_Final-1.png" alt="Helena Pacheco" onerror="this.style.display='none'">
   </div>
 
-  <!-- Foto de Perfil Interativa -->
+  <!-- Foto de Perfil -->
   <div class="avatar-wrapper">
-    <div class="avatar-box" id="avatarBox" onclick="triggerFileInput()">
-      <img id="avatarImage" class="avatar-img" alt="Foto de Perfil">
-      
-      <div id="avatarPlaceholder" class="avatar-placeholder">
-        <span>🌿</span>
-        Incluir Foto
-      </div>
-
-      <div class="avatar-overlay">
-        <button class="avatar-btn" type="button" onclick="event.stopPropagation(); triggerFileInput();">📷 Trocar</button>
-        <button class="avatar-btn avatar-btn-danger" type="button" id="removeBtn" style="display: none;" onclick="event.stopPropagation(); removePhoto();">🗑️ Remover</button>
-      </div>
+    <div class="avatar-box">
+      <img id="avatarImage" class="avatar-img" src="Logo_Helena_Pacheco_Final-1.png" alt="Helena Pacheco" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Helena+Pacheco&background=28a08d&color=fff&size=140';">
     </div>
   </div>
-  <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="loadPhoto(event)">
 
   <!-- Informações Profissionais -->
   <div class="profile-info">
@@ -792,61 +712,6 @@
 </div>
 
 <script>
-  // Elementos da Foto de Perfil
-  const fileInput = document.getElementById('fileInput');
-  const avatarImage = document.getElementById('avatarImage');
-  const avatarPlaceholder = document.getElementById('avatarPlaceholder');
-  const removeBtn = document.getElementById('removeBtn');
-
-  // Função para exibir a foto na tela
-  function displayPhoto(base64Data) {
-    avatarImage.src = base64Data;
-    avatarImage.style.display = 'block';
-    avatarPlaceholder.style.display = 'none';
-    removeBtn.style.display = 'block';
-  }
-
-  // Verifica se existe foto salva no navegador ao abrir a página
-  window.addEventListener('DOMContentLoaded', () => {
-    const savedPhoto = localStorage.getItem('helena_profile_photo');
-    if (savedPhoto) {
-      displayPhoto(savedPhoto);
-    }
-  });
-
-  function triggerFileInput() {
-    fileInput.click();
-  }
-
-  // Salva a foto no localStorage e exibe na tela
-  function loadPhoto(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const photoData = e.target.result;
-        try {
-          localStorage.setItem('helena_profile_photo', photoData);
-        } catch (err) {
-          console.warn("Imagem muito grande para salvar no armazenamento local:", err);
-        }
-        displayPhoto(photoData);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  // Remove a foto salva do navegador
-  function removePhoto() {
-    localStorage.removeItem('helena_profile_photo');
-    avatarImage.src = '';
-    avatarImage.style.display = 'none';
-    avatarPlaceholder.style.display = 'flex';
-    removeBtn.style.display = 'none';
-    fileInput.value = '';
-  }
-
-  // Gerenciamento dos Modais Deslizantes
   document.addEventListener('DOMContentLoaded', function() {
     
     // Modal Especialidades
@@ -894,7 +759,7 @@
       careModal.classList.remove('active');
     });
 
-    // Accordion Especialidades (Vinculado apenas ao cabeçalho .spec-header)
+    // Accordion Especialidades
     const specHeaders = document.querySelectorAll('.spec-header');
     specHeaders.forEach(header => {
       header.addEventListener('click', function(e) {
@@ -902,10 +767,8 @@
         const parentItem = this.parentElement;
         const isActive = parentItem.classList.contains('active');
         
-        // Fecha todos os outros itens
         document.querySelectorAll('.spec-item').forEach(el => el.classList.remove('active'));
         
-        // Abre apenas o clicado caso estivesse fechado
         if (!isActive) {
           parentItem.classList.add('active');
         }
