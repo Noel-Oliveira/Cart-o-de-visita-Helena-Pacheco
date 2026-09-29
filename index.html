@@ -272,7 +272,7 @@
     border-radius: 4px;
   }
 
-  /* Accordion (Especialidades) */
+  /* Accordion (Especialidades) com Rolagem Automática */
   .spec-item {
     background: #ffffff;
     border: 1px solid rgba(33, 153, 133, 0.18);
@@ -312,7 +312,7 @@
   .spec-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.3s;
+    transition: max-height 0.3s ease, padding 0.3s;
     background: #fafefd;
     padding: 0 16px;
     font-size: 11px;
@@ -322,9 +322,19 @@
   }
 
   .spec-item.active .spec-content {
-    max-height: 800px;
+    max-height: 160px;
+    overflow-y: auto;
     padding: 12px 16px 16px 16px;
     border-top-color: rgba(33, 153, 133, 0.1);
+  }
+
+  /* Barra de rolagem personalizada para qualquer especialidade */
+  .spec-content::-webkit-scrollbar {
+    width: 4px;
+  }
+  .spec-content::-webkit-scrollbar-thumb {
+    background: rgba(33, 153, 133, 0.4);
+    border-radius: 4px;
   }
 
   .section-label {
@@ -600,6 +610,17 @@
         <div class="spec-content">
           Atendimento especializado para procedimentos estéticos e ortopédicos.
           A partir da avaliação, o pré e pós-operatório pode incluir Drenagem Linfática, Liberação Miofascial Cicatricial, Acupuntura/Auriculoterapia para alívio da dor, Mobilização Articular, Fortalecimento Muscular, Treino de Marcha e uso de Dispositivos Auxiliares.
+        </div>
+      </div>
+
+      <div class="spec-item">
+        <div class="spec-header">
+          <span>Access Mtvss</span>
+          <span class="spec-toggle">▼</span>
+        </div>
+        <div class="spec-content">
+          A Técnica MTVSS (Molecular Terminal Valence Sloughing System ou Sistema de Desprendimento da Valência Terminal Molecular) é um processo corporal do Access Consciousness realizado por meio da imposição de mãos.<br><br>
+          <b>Aplicação:</b> O cliente permanece deitado na maca enquanto o profissional aplica toques suaves em regiões específicas, como articulações e órgãos para liberar os bloqueios. Inicialmente, ativamos o sistema imunológico e as demais ativações variam de acordo com a queixa do cliente (p. ex: sua queixa pode ser física: dor localizada – muscular ou articular, traumas ortopédicos, processos cirúrgicos; ou emocional: ansiedade, angústias, depressão, insônia, luto e outros). Ao final da sessão o cliente sente-se relaxado e ao passar dos dias refere melhora do desequilíbrio devido ao reestabelecimento da estrutura molecular.
         </div>
       </div>
     </div>
