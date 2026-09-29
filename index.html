@@ -215,6 +215,11 @@
     transform: translateY(0) !important;
   }
 
+  /* Submodal de Detalhes da Especialidade */
+  .detail-overlay {
+    z-index: 1000;
+  }
+
   .modal-header {
     display: flex;
     justify-content: space-between;
@@ -234,23 +239,31 @@
     gap: 8px;
   }
 
-  .close-btn {
+  .close-btn, .back-btn {
     background: rgba(33, 153, 133, 0.1);
     border: none;
     color: var(--accent-teal);
-    width: 32px;
     height: 32px;
-    border-radius: 50%;
+    border-radius: 16px;
+    padding: 0 12px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 13px;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background 0.2s;
+    gap: 4px;
+    transition: background 0.2s, color 0.2s;
   }
 
-  .close-btn:hover {
+  .close-btn {
+    width: 32px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 16px;
+  }
+
+  .close-btn:hover, .back-btn:hover {
     background: var(--accent-teal);
     color: #ffffff;
   }
@@ -261,7 +274,7 @@
     padding: 18px 20px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
   }
 
   .modal-body::-webkit-scrollbar {
@@ -272,69 +285,46 @@
     border-radius: 4px;
   }
 
-  /* Accordion (Especialidades) com Rolagem Automática */
-  .spec-item {
+  /* Lista de Botões de Especialidades */
+  .spec-nav-btn {
+    width: 100%;
     background: #ffffff;
-    border: 1px solid rgba(33, 153, 133, 0.18);
+    border: 1px solid rgba(33, 153, 133, 0.2);
+    padding: 14px 16px;
     border-radius: 16px;
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 2px 6px rgba(0,0,0,0.02);
   }
 
-  .spec-header {
-    padding: 14px 16px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-dark);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
+  .spec-nav-btn:hover {
     background: #ffffff;
-    user-select: none;
+    border-color: var(--accent-teal);
+    transform: translateX(3px);
+    box-shadow: 0 4px 12px rgba(33, 153, 133, 0.15);
   }
 
-  .spec-header:hover {
-    background: rgba(210, 243, 236, 0.3);
-  }
-
-  .spec-toggle {
-    font-size: 12px;
+  .spec-nav-arrow {
     color: var(--accent-teal);
-    transition: transform 0.3s;
+    font-size: 14px;
   }
 
-  .spec-item.active .spec-toggle {
-    transform: rotate(180deg);
-  }
-
-  .spec-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, padding 0.3s;
-    background: #fafefd;
-    padding: 0 16px;
-    font-size: 11px;
-    line-height: 1.5;
+  /* Estilo do Conteúdo Detalhado */
+  .detail-card {
+    background: #ffffff;
+    border: 1px solid rgba(33, 153, 133, 0.2);
+    border-radius: 18px;
+    padding: 18px;
+    font-size: 12px;
+    line-height: 1.6;
     color: var(--text-muted);
-    border-top: 1px solid transparent;
-  }
-
-  .spec-item.active .spec-content {
-    max-height: 160px;
-    overflow-y: auto;
-    padding: 12px 16px 16px 16px;
-    border-top-color: rgba(33, 153, 133, 0.1);
-  }
-
-  /* Barra de rolagem personalizada para qualquer especialidade */
-  .spec-content::-webkit-scrollbar {
-    width: 4px;
-  }
-  .spec-content::-webkit-scrollbar-thumb {
-    background: rgba(33, 153, 133, 0.4);
-    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   }
 
   .section-label {
@@ -510,7 +500,7 @@
     Toque nos botões para conectar
   </div>
 
-  <!-- Modal 1: Especialidades & Tratamentos -->
+  <!-- Modal 1: Lista de Especialidades -->
   <div class="modal-overlay" id="specModal">
     <div class="modal-header">
       <div class="modal-title">✨ Especialidades</div>
@@ -518,110 +508,194 @@
     </div>
 
     <div class="modal-body">
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Drenagem Linfática</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          Estimula o sistema linfático a trabalhar de maneira mais acelerada.<br><br>
-          Promove a redução de líquidos (inchaços), ativa a circulação sanguínea e o sistema imunológico, desintoxicação, combate a celulite e inflamação sistêmica.
-        </div>
-      </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-drenagem">
+        <span>Drenagem Linfática</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
 
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Massagem Terapêutica</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          Massagem com intensidade profunda.<br><br>
-          Indicada para tensão muscular. Promove o alívio da dor e fadiga muscular, reduz o cortisol, ativa a circulação sanguínea.
-        </div>
-      </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-massagem">
+        <span>Massagem Terapêutica</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
 
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Tui Ná</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          Massagem Chinesa de cunho terapêutico e preventivo que atua sobre os pontos e meridianos da acupuntura para disfunções físicas e emocionais, agudas e crônicas.<br><br>
-          <b>Indicado para:</b> Estresse, insônia, ansiedade, dores musculares, ligamentares e articulares, dor de cabeça e constipação.
-        </div>
-      </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-tuina">
+        <span>Tui Ná</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
 
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Acupuntura</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          Técnica que engloba o corpo integralmente, beneficiando o bem-estar físico e emocional. Ao longo do nosso corpo possuímos canais energéticos (meridianos) que dizem respeito à saúde e funcionalidade de todos os nossos órgãos e vísceras. O meridiano recebe este estímulo como um "impulso elétrico".
-        </div>
-      </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-acupuntura">
+        <span>Acupuntura</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
 
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Auriculoterapia</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          O pavilhão auricular é irrigado por vasos sanguíneos e nervo Vago possibilitando a conexão de áreas reflexas de todo o corpo no tratamento de doenças autoimunes, regulação neurovegetativa, equilíbrio emocional, dores agudas e crônicas, regulação intestinal e vícios (ex: alcoolismo, tabagismo, compulsão alimentar).
-        </div>
-      </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-auriculo">
+        <span>Auriculoterapia</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
 
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Ventosas de Fogo</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          Aplicadas sobre a pele e, através de um vácuo, o qual gera uma sucção, propicia a limpeza do sangue ajudando na remoção das toxinas acumuladas no organismo, promovendo a circulação sanguínea e energética; fortalecimento do sistema imunológico e a funcionalidade dos órgãos e vísceras, além do alívio das tensões musculares.
-        </div>
-      </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-ventosas">
+        <span>Ventosas de Fogo</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
 
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Cone Chinês / Hindu</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          Através do calor desobstrui os canais auditivos, nariz e garganta. Promove relaxamento dos músculos da face e pescoço.<br><br>
-          <b>Indicado para:</b> Desordens musculares da articulação temporomandibular (ex: bruxismo), dores de cabeça, estresse, insônia e afecções respiratórias.
-        </div>
-      </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-cone">
+        <span>Cone Chinês / Hindu</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
 
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Moxabustão</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          Técnica milenar da Medicina Tradicional Chinesa que visa colocar calor nos acupontos, restaurando o equilíbrio energético e sanguíneo (Qi/ Xue) em casos de síndromes causadas por frio e umidade. Busca tonificar pontos que aumentam a energia interna. A erva mais utilizada é a Artemísia.
-        </div>
-      </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-moxa">
+        <span>Moxabustão</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
 
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Pré e Pós-Cirúrgicos</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          Atendimento especializado para procedimentos estéticos e ortopédicos.
-          A partir da avaliação, o pré e pós-operatório pode incluir Drenagem Linfática, Liberação Miofascial Cicatricial, Acupuntura/Auriculoterapia para alívio da dor, Mobilização Articular, Fortalecimento Muscular, Treino de Marcha e uso de Dispositivos Auxiliares.
-        </div>
-      </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-cirurgicos">
+        <span>Pré e Pós-Cirúrgicos</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
 
-      <div class="spec-item">
-        <div class="spec-header">
-          <span>Access Mtvss</span>
-          <span class="spec-toggle">▼</span>
-        </div>
-        <div class="spec-content">
-          A Técnica MTVSS (Molecular Terminal Valence Sloughing System ou Sistema de Desprendimento da Valência Terminal Molecular) é um processo corporal do Access Consciousness realizado por meio da imposição de mãos.<br><br>
-          <b>Aplicação:</b> O cliente permanece deitado na maca enquanto o profissional aplica toques suaves em regiões específicas, como articulações e órgãos para liberar os bloqueios. Inicialmente, ativamos o sistema imunológico e as demais ativações variam de acordo com a queixa do cliente (p. ex: sua queixa pode ser física: dor localizada – muscular ou articular, traumas ortopédicos, processos cirúrgicos; ou emocional: ansiedade, angústias, depressão, insônia, luto e outros). Ao final da sessão o cliente sente-se relaxado e ao passar dos dias refere melhora do desequilíbrio devido ao reestabelecimento da estrutura molecular.
-        </div>
+      <button type="button" class="spec-nav-btn" data-target="spec-access">
+        <span>Access Mtvss</span>
+        <span class="spec-nav-arrow">➔</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Submodais Dedicados para Cada Especialidade -->
+
+  <div class="modal-overlay detail-overlay" id="spec-drenagem">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Drenagem Linfática</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        Estimula o sistema linfático a trabalhar de maneira mais acelerada.<br><br>
+        Promove a redução de líquidos (inchaços), ativa a circulação sanguínea e o sistema imunológico, desintoxicação, combate a celulite e inflamação sistêmica.
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay detail-overlay" id="spec-massagem">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Massagem Terapêutica</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        Massagem com intensidade profunda.<br><br>
+        Indicada para tensão muscular. Promove o alívio da dor e fadiga muscular, reduz o cortisol, ativa a circulação sanguínea.
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay detail-overlay" id="spec-tuina">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Tui Ná</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        Massagem Chinesa de cunho terapêutico e preventivo que atua sobre os pontos e meridianos da acupuntura para disfunções físicas e emocionais, agudas e crônicas.<br><br>
+        <b>Indicado para:</b> Estresse, insônia, ansiedade, dores musculares, ligamentares e articulares, dor de cabeça e constipação.
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay detail-overlay" id="spec-acupuntura">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Acupuntura</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        Técnica que engloba o corpo integralmente, beneficiando o bem-estar físico e emocional. Ao longo do nosso corpo possuímos canais energéticos (meridianos) que dizem respeito à saúde e funcionalidade de todos os nossos órgãos e vísceras. O meridiano recebe este estímulo como um "impulso elétrico".
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay detail-overlay" id="spec-auriculo">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Auriculoterapia</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        O pavilhão auricular é irrigado por vasos sanguíneos e nervo Vago possibilitando a conexão de áreas reflexas de todo o corpo no tratamento de doenças autoimunes, regulação neurovegetativa, equilíbrio emocional, dores agudas e crônicas, regulação intestinal e vícios (ex: alcoolismo, tabagismo, compulsão alimentar).
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay detail-overlay" id="spec-ventosas">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Ventosas de Fogo</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        Aplicadas sobre a pele e, através de um vácuo, o qual gera uma sucção, propicia a limpeza do sangue ajudando na remoção das toxinas acumuladas no organismo, promovendo a circulação sanguínea e energética; fortalecimento do sistema imunológico e a funcionalidade dos órgãos e vísceras, além do alívio das tensões musculares.
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay detail-overlay" id="spec-cone">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Cone Chinês / Hindu</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        Através do calor desobstrui os canais auditivos, nariz e garganta. Promove relaxamento dos músculos da face e pescoço.<br><br>
+        <b>Indicado para:</b> Desordens musculares da articulação temporomandibular (ex: bruxismo), dores de cabeça, estresse, insônia e afecções respiratórias.
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay detail-overlay" id="spec-moxa">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Moxabustão</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        Técnica milenar da Medicina Tradicional Chinesa que visa colocar calor nos acupontos, restaurando o equilíbrio energético e sanguíneo (Qi/ Xue) em casos de síndromes causadas por frio e umidade. Busca tonificar pontos que aumentam a energia interna. A erva mais utilizada é a Artemísia.
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay detail-overlay" id="spec-cirurgicos">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Pré e Pós-Cirúrgicos</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        Atendimento especializado para procedimentos estéticos e ortopédicos.<br><br>
+        A partir da avaliação, o pré e pós-operatório pode incluir Drenagem Linfática, Liberação Miofascial Cicatricial, Acupuntura/Auriculoterapia para alívio da dor, Mobilização Articular, Fortalecimento Muscular, Treino de Marcha e uso de Dispositivos Auxiliares.
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay detail-overlay" id="spec-access">
+    <div class="modal-header">
+      <button type="button" class="back-btn">⬅ Voltar</button>
+      <div class="modal-title">Access Mtvss</div>
+      <button type="button" class="close-btn close-all-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        A Técnica MTVSS (Molecular Terminal Valence Sloughing System ou Sistema de Desprendimento da Valência Terminal Molecular) é um processo corporal do Access Consciousness realizado por meio da imposição de mãos.<br><br>
+        <b>Aplicação:</b> O cliente permanece deitado na maca enquanto o profissional aplica toques suaves em regiões específicas, como articulações e órgãos para liberar os bloqueios.<br><br>
+        Inicialmente, ativamos o sistema imunológico e as demais ativações variam de acordo com a queixa do cliente (p. ex: sua queixa pode ser física: dor localizada – muscular ou articular, traumas ortopédicos, processos cirúrgicos; ou emocional: ansiedade, angústias, depressão, insônia, luto e outros).<br><br>
+        Ao final da sessão o cliente sente-se relaxado e ao passar dos dias refere melhora do desequilíbrio devido ao reestabelecimento da estrutura molecular.
       </div>
     </div>
   </div>
@@ -729,64 +803,56 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     
-    // Modal Especialidades
+    // Abrir/Fechar Modais Principais
     const openSpecBtn = document.getElementById('openSpecBtn');
     const closeSpecBtn = document.getElementById('closeSpecBtn');
     const specModal = document.getElementById('specModal');
 
-    openSpecBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      specModal.classList.add('active');
-    });
+    openSpecBtn.addEventListener('click', () => specModal.classList.add('active'));
+    closeSpecBtn.addEventListener('click', () => specModal.classList.remove('active'));
 
-    closeSpecBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      specModal.classList.remove('active');
-    });
-
-    // Modal Formação Acadêmica
     const openAcademicBtn = document.getElementById('openAcademicBtn');
     const closeAcademicBtn = document.getElementById('closeAcademicBtn');
     const academicModal = document.getElementById('academicModal');
 
-    openAcademicBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      academicModal.classList.add('active');
-    });
+    openAcademicBtn.addEventListener('click', () => academicModal.classList.add('active'));
+    closeAcademicBtn.addEventListener('click', () => academicModal.classList.remove('active'));
 
-    closeAcademicBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      academicModal.classList.remove('active');
-    });
-
-    // Modal Atendimento Domiciliar e Clínico
     const openCareBtn = document.getElementById('openCareBtn');
     const closeCareBtn = document.getElementById('closeCareBtn');
     const careModal = document.getElementById('careModal');
 
-    openCareBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      careModal.classList.add('active');
-    });
+    openCareBtn.addEventListener('click', () => careModal.classList.add('active'));
+    closeCareBtn.addEventListener('click', () => careModal.classList.remove('active'));
 
-    closeCareBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      careModal.classList.remove('active');
-    });
-
-    // Accordion Especialidades
-    const specHeaders = document.querySelectorAll('.spec-header');
-    specHeaders.forEach(header => {
-      header.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const parentItem = this.parentElement;
-        const isActive = parentItem.classList.contains('active');
-        
-        document.querySelectorAll('.spec-item').forEach(el => el.classList.remove('active'));
-        
-        if (!isActive) {
-          parentItem.classList.add('active');
+    // Navegação entre Lista de Especialidades e Subpainéis Dedicados
+    const navButtons = document.querySelectorAll('.spec-nav-btn');
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const targetModal = document.getElementById(targetId);
+        if (targetModal) {
+          targetModal.classList.add('active');
         }
+      });
+    });
+
+    // Botões de Voltar dentro do Subpainel
+    const backButtons = document.querySelectorAll('.back-btn');
+    backButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const parentDetail = this.closest('.detail-overlay');
+        if (parentDetail) {
+          parentDetail.classList.remove('active');
+        }
+      });
+    });
+
+    // Botões de Fechar Tudo (X)
+    const closeAllButtons = document.querySelectorAll('.close-all-btn');
+    closeAllButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.modal-overlay').forEach(modal => modal.classList.remove('active'));
       });
     });
 
